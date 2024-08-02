@@ -1,0 +1,19 @@
+#ignore the Database Codes
+GatewayDB
+
+#Sensitive Data
+.env
+
+#ignore node_modules
+node_modules
+
+#ignore .js files
+dist/
+*.js
+
+#ignore the config files
+config/
+
+
+migrations/
+seeders/
