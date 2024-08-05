@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../index";
+import sequelize from "../connection";
 
 interface Session_Token_Attributes {
     token_id: number;

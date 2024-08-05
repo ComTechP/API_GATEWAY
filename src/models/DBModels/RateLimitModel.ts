@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../index";
+import sequelize from "../connection";
 
 interface Rate_Limit_Attributes{
     rate_limit_id: number;

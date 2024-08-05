@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../index";
+import sequelize from "../connection";
 
 interface LogAttributes{
     log_id: number;
