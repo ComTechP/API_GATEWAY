@@ -30,7 +30,8 @@ export class CompanyService {
     }
 
     public async createCompany(companyData: CreateCompanyInterface): Promise<CompanyInstance>{
-        const findCompany: CompanyInstance | null = await CompanyModel.findOne({where: {companyData.website}});
+        var website: string = companyData.CompanyWebsite;
+        const findCompany: CompanyInstance | null = await CompanyModel.findOne({where: {website}});
 
         if(!findCompany)
             throw new HTTPException(409, `This Website ${companyData.CompanyWebsite} Already Exists!`);

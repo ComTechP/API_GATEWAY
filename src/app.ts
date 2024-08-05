@@ -1,7 +1,8 @@
+import 'reflect-metadata';
 import express = require("express");
 import bodyParser = require("body-parser");
 import Router from "./Routes/index";
-import cors = require("cors");
+import cors from "cors";
 import dotenv = require("dotenv");
 
 dotenv.config({ path: "../.env" });
