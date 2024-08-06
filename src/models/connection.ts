@@ -1,9 +1,14 @@
 import { Sequelize } from 'sequelize';
-import dotenv = require('dotenv');
+import fs from 'fs';
+import path from 'path';
 
-dotenv.config({ path: '../../.env' });
 
-const sequelize = new Sequelize('gateway_db', 'root', process.env.DB_PASSWORD, {
+const configPath = path.resolve(__dirname, '../../config/config.json');
+const rawConfig = fs.readFileSync(configPath, 'utf-8');
+const config = JSON.parse(rawConfig);
+
+
+const sequelize = new Sequelize('gateway_db', 'gateway', config.development.password, {
   host: 'localhost',
   dialect: 'mysql',
   logging: false

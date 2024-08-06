@@ -1,9 +1,6 @@
 import 'reflect-metadata';
 import app from './app';
 import sequelize from './models/connection';
-import dotenv = require('dotenv');
-
-dotenv.config({path: '../.env'});
 
 const port = process.env.PORT || 3000;
 

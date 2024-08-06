@@ -11,7 +11,7 @@ node_modules
 dist/
 *.js
 
-#ignore the config files
+#ignore the config file
 config/
 
 

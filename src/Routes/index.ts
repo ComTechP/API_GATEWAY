@@ -2,9 +2,7 @@ import { Router } from 'express';
 import UserRoute from './UserRouter';
 import AuthRoute from './AuthRouter';
 import CompanyRoute from './CompanyRouter';
-import dotenv = require('dotenv');
 
-dotenv.config({path: '../../.env'});
 
 const router = Router();
 

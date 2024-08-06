@@ -3,7 +3,7 @@ import express = require("express");
 import bodyParser = require("body-parser");
 import Router from "./Routes/index";
 import cors from "cors";
-import dotenv = require("dotenv");
+import dotenv from 'dotenv';
 
 dotenv.config({ path: "../.env" });
 

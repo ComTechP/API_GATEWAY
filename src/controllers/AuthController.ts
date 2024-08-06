@@ -36,7 +36,7 @@ export class AuthController {
 
     public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
         try{
-            const userData: UserInstance = req.user;
+            const userData: UserInstance = req.body;
             const logOutUserData: UserInstance = await this.authService.logOut(userData);
 
             res.setHeader('Set-Cookie', ['Authoriztion=; LifeTime=0']);
