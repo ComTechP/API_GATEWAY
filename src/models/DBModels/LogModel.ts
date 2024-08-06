@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
 
-interface LogAttributes{
+interface logAttributes{
     log_id: number;
     request_id: number;
     log_message: string;
@@ -9,9 +9,9 @@ interface LogAttributes{
     time: Date;
 }
 
-interface LogCreationAttributes extends Partial<LogAttributes>{}
+interface logCreationAttributes extends Partial<logAttributes>{}
 
-class Log extends Model<LogAttributes, LogCreationAttributes> implements LogAttributes{
+class logModel extends Model<logAttributes, logCreationAttributes> implements logAttributes{
     public log_id!: number;
     public request_id!: number;
     public log_message!: string;
@@ -19,7 +19,7 @@ class Log extends Model<LogAttributes, LogCreationAttributes> implements LogAttr
     public time!: Date;
 }
 
-Log.init({
+logModel.init({
     log_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -28,7 +28,7 @@ Log.init({
     request_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'API_request',
+            model: 'apiResquestModel',
             key: 'request_id',
         }
     },
@@ -44,8 +44,8 @@ Log.init({
     },
 },{
     sequelize,
-    tableName:'Log',
+    tableName:'log',
     timestamps: false,
 });
 
-export default Log;
+export default logModel;

@@ -1,7 +1,7 @@
 import {DataTypes, Model} from 'sequelize';
 import sequelize from '../connection';
 
-interface CompanyAttributes{
+interface companyAttributes{
     company_id: number;
     company_name: string;
     website: string;
@@ -10,9 +10,9 @@ interface CompanyAttributes{
     scont_url: string;
 }
 
-interface CompanyCreationAttributes extends Partial<CompanyAttributes>{}
+interface companyCreationAttributes extends Partial<companyAttributes>{}
 
-class CompanyModel extends Model<CompanyAttributes, CompanyCreationAttributes> implements CompanyAttributes{
+class companyModel extends Model<companyAttributes, companyCreationAttributes> implements companyAttributes{
     public company_id!: number;
     public company_name!: string;
     public website!: string;
@@ -21,7 +21,7 @@ class CompanyModel extends Model<CompanyAttributes, CompanyCreationAttributes> i
     public scont_url!: string;
 }
 
-CompanyModel.init({
+companyModel.init({
     company_id:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -50,8 +50,8 @@ CompanyModel.init({
     }
 },{ 
     sequelize,
-    tableName: 'Company',
+    tableName: 'company',
     timestamps: false,
 });
 
-export default CompanyModel;
+export default companyModel;

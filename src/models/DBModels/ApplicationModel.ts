@@ -1,23 +1,23 @@
 import {DataTypes, Model} from 'sequelize';
 import sequelize from '../connection';
 
-interface ApplicationAttributes{
+interface applicationAttributes{
     application_id: number;
     name: string;
     url: string;
     created_at: Date;
 }
 
-interface ApplicationCreationAttributes extends Partial<ApplicationAttributes>{}
+interface applicationCreationAttributes extends Partial<applicationAttributes>{}
 
-class Application extends Model<ApplicationAttributes, ApplicationCreationAttributes> implements ApplicationAttributes{
+class applicationModel extends Model<applicationAttributes, applicationCreationAttributes> implements applicationAttributes{
     public application_id!: number;
     public name!: string;
     public url!: string;
     public created_at!: Date;
 }
 
-Application.init({
+applicationModel.init({
     application_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -39,9 +39,9 @@ Application.init({
       },
     }, {
       sequelize,
-      tableName: 'Application',
+      tableName: 'application',
       timestamps: false,
 
 });
 
-export default Application;
+export default applicationModel;

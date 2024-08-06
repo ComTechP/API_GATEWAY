@@ -1,17 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
-import  UserModel from '../models/DBModels/UserModel';
+import  userModel from '../models/DBModels/UserModel';
 import { CreateUserInterface } from '../interfaces/UserInterface';
 import { UserService } from '../Services/UserService';
 
-type UserInstance = UserModel;
+type userInstance = userModel;
 
 export class UserController {
     public userService = Container.get(UserService);
 
     public getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
         try{
-            const FindAllUsers: UserInstance[] = await this.userService.findAllUsers();
+            const FindAllUsers: userInstance[] = await this.userService.findAllUsers();
 
             res.status(200).json({data: FindAllUsers, message: "All User's Data"});
         } catch(error){
@@ -45,7 +45,7 @@ export class UserController {
     public createUser = async (req: Request, res: Response, next: NextFunction) => {
         try{
             const userData: CreateUserInterface = req.body;
-            const createUserData: UserInstance = await this.userService.createUser(userData);
+            const createUserData: userInstance = await this.userService.createUser(userData);
 
             res.status(200).json({data: createUserData, message: "User Created."});
         }catch(error){
@@ -57,7 +57,7 @@ export class UserController {
         try{
             const id = Number(req.params.id);
             const userData: CreateUserInterface = req.body;
-            const updateUserData: UserInstance = await this.userService.updateUserById(id, userData);
+            const updateUserData: userInstance = await this.userService.updateUserById(id, userData);
 
             res.status(200).json({data: updateUserData, message: "User Updated."});
         }catch(error){
@@ -69,7 +69,7 @@ export class UserController {
         try{
             const username = String(req.params.username);
             const userData: CreateUserInterface = req.body;
-            const updateUserData: UserInstance = await this.userService.updateUserByUsername(username, userData);
+            const updateUserData: userInstance = await this.userService.updateUserByUsername(username, userData);
 
             res.status(200).json({data: updateUserData, message: "User Updated."});
         }catch(error){
@@ -80,7 +80,7 @@ export class UserController {
     public deleteUserById = async (req: Request, res: Response, next: NextFunction) => {
         try{
             const id = Number(req.params.id);
-            const deleteUser: UserInstance = await this.userService.deleteUserById(id);
+            const deleteUser: userInstance = await this.userService.deleteUserById(id);
 
             res.status(200).json({data: deleteUser, message: "User Deleted."});
         }catch(error){
@@ -91,7 +91,7 @@ export class UserController {
     public deleteUserByUsername = async (req: Request, res: Response, next: NextFunction) => {
         try{
             const username = String(req.params.username);
-            const deleteUser: UserInstance = await this.userService.deleteUserByUsername(username);
+            const deleteUser: userInstance = await this.userService.deleteUserByUsername(username);
 
             res.status(200).json({data: deleteUser, message: "User Deleted."});
         }catch(error){

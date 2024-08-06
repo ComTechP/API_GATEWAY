@@ -1,7 +1,7 @@
 import {DataTypes, Model} from 'sequelize';
 import sequelize from '../connection';
 
-interface CacheAttributes{
+interface cacheAttributes{
     cache_id: number;
     cache_key: number;
     value: string;
@@ -9,9 +9,9 @@ interface CacheAttributes{
     expires_at: Date;
 }
 
-interface CacheCreationAttributes extends Partial<CacheAttributes>{}
+interface cacheCreationAttributes extends Partial<cacheAttributes>{}
 
-class Cache extends Model<CacheAttributes, CacheCreationAttributes> implements CacheAttributes{
+class cacheModel extends Model<cacheAttributes, cacheCreationAttributes> implements cacheAttributes{
     public cache_id!: number;
     public cache_key!: number;
     public value!: string;
@@ -19,7 +19,7 @@ class Cache extends Model<CacheAttributes, CacheCreationAttributes> implements C
     public expires_at!: Date;
 }
 
-Cache.init({
+cacheModel.init({
     cache_id:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -43,8 +43,8 @@ Cache.init({
     }
 } , {
         sequelize,
-        tableName: 'Cache',
+        tableName: 'cache',
         timestamps: false,
 });
 
-export default Cache;
+export default cacheModel;

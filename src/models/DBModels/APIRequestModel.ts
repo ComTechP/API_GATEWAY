@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
 
-interface API_Request_Attributes {
+interface apiRequestAttributes {
   request_id: number;
   user_id: number;
   service_id: number;
@@ -11,9 +11,9 @@ interface API_Request_Attributes {
   status_code: number;
 }
 
-interface API_Request_Creation_Attributes extends Partial<API_Request_Attributes> {}
+interface apiRequestCreationAttributes extends Partial<apiRequestAttributes> {}
 
-class API_Request extends Model<API_Request_Attributes, API_Request_Creation_Attributes> implements API_Request_Attributes {
+class apiRequestModel extends Model<apiRequestAttributes, apiRequestCreationAttributes> implements apiRequestAttributes {
   public request_id!: number;
   public user_id!: number;
   public service_id!: number;
@@ -23,7 +23,7 @@ class API_Request extends Model<API_Request_Attributes, API_Request_Creation_Att
   public status_code!: number;
 }
 
-API_Request.init(
+apiRequestModel.init(
   {
     request_id: {
       type: DataTypes.INTEGER,
@@ -33,14 +33,14 @@ API_Request.init(
     user_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: "user",
+        model: "userModel",
         key: "user_id",
       },
     },
     service_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: "Service",
+        model: "serviceModel",
         key: "service_id",
       },
     },
@@ -64,9 +64,9 @@ API_Request.init(
   },
   {
     sequelize,
-    tableName: "API_Request",
+    tableName: "api_request",
     timestamps: false,
   }
 );
 
-export default API_Request;
+export default apiRequestModel;

@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
 
-interface Session_Token_Attributes {
+interface sessionTokenAttributes {
     token_id: number;
     user_id: number;
     access_token: string;
@@ -10,9 +10,9 @@ interface Session_Token_Attributes {
     expires_at: Date;
 }
 
-interface Session_Token_Creation_Attributes extends Partial<Session_Token_Attributes>{}
+interface sessionTokenCreationAttributes extends Partial<sessionTokenAttributes>{}
 
-class Session_Token extends Model<Session_Token_Attributes, Session_Token_Creation_Attributes> implements Session_Token_Attributes {
+class sessionTokenModel extends Model<sessionTokenAttributes, sessionTokenCreationAttributes> implements sessionTokenAttributes {
     public token_id!: number;
     public user_id!: number;
     public access_token!: string;
@@ -21,7 +21,7 @@ class Session_Token extends Model<Session_Token_Attributes, Session_Token_Creati
     public expires_at!: Date;
 }
 
-Session_Token.init({
+sessionTokenModel.init({
     token_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -30,7 +30,7 @@ Session_Token.init({
     user_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'user',
+            model: 'userModel',
             key: 'user_id',
         }
     },
@@ -59,4 +59,4 @@ Session_Token.init({
     timestamps: false,
 });
 
-export default Session_Token;
+export default sessionTokenModel;

@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
 
-interface Company_Application_Token_Attributes {
+interface companyApplicationTokenAttributes {
     id: number;
     application_id: number;
     company_id: number;
@@ -12,9 +12,9 @@ interface Company_Application_Token_Attributes {
     is_active: boolean;
 }
 
-interface Company_Application_Token_Creation_Attributes extends Partial<Company_Application_Token_Attributes>{}
+interface companyApplicationTokenCreationAttributes extends Partial<companyApplicationTokenAttributes>{}
 
-class Company_Application_Token extends Model<Company_Application_Token_Attributes, Company_Application_Token_Creation_Attributes> implements Company_Application_Token_Attributes {
+class companyApplicationTokenModel extends Model<companyApplicationTokenAttributes, companyApplicationTokenCreationAttributes> implements companyApplicationTokenAttributes {
     public id!: number;
     public application_id!: number;
     public company_id!: number;
@@ -25,7 +25,7 @@ class Company_Application_Token extends Model<Company_Application_Token_Attribut
     public is_active!: boolean;
 }
 
-Company_Application_Token.init({
+companyApplicationTokenModel.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -34,14 +34,14 @@ Company_Application_Token.init({
     application_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'application',
+            model: 'applicationModel',
             key: 'application_id',
         }
     },
     company_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'company',
+            model: 'companyModel',
             key: 'company_id',
         }
     },
@@ -58,7 +58,7 @@ Company_Application_Token.init({
     created_by_user: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'user',
+            model: 'userModel',
             key: 'user_id',
         }
     },
@@ -73,8 +73,8 @@ Company_Application_Token.init({
     },
 },{
     sequelize,
-    tableName: 'Company_Application_Token',
+    tableName: 'company_application_token',
     timestamps: false,
 });
 
-export default Company_Application_Token;
+export default companyApplicationTokenModel;

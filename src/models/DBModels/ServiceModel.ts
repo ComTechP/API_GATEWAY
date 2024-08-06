@@ -1,21 +1,21 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
 
-interface ServiceAttributes{
+interface serviceAttributes{
     service_id: number;
     service_name: string;
     service_url: string;
 }
 
-interface ServiceCreationAttributes extends Partial<ServiceAttributes>{}
+interface serviceCreationAttributes extends Partial<serviceAttributes>{}
 
-class Service extends Model<ServiceAttributes, ServiceCreationAttributes> implements ServiceAttributes{
+class serviceModel extends Model<serviceAttributes, serviceCreationAttributes> implements serviceAttributes{
     public service_id!: number;
     public service_name!: string;
     public service_url!: string;
 }
 
-Service.init({
+serviceModel.init({
     service_id: {
         type: DataTypes.INTEGER,
         primaryKey:true,
@@ -31,8 +31,8 @@ Service.init({
     },
 },{
     sequelize,
-    tableName: 'Service',
+    tableName: 'service',
     timestamps: false,
 });
 
-export default Service;
+export default serviceModel;

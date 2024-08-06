@@ -8,7 +8,7 @@ const rawConfig = fs.readFileSync(configPath, 'utf-8');
 const config = JSON.parse(rawConfig);
 
 
-const sequelize = new Sequelize('gateway_db', 'gateway', config.development.password, {
+const sequelize = new Sequelize(config.development.database, config.development.username, config.development.password, {
   host: 'localhost',
   dialect: 'mysql',
   logging: false

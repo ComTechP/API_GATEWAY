@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
 
-interface UserAttributes {
+interface userAttributes {
     user_id: number;
     company_id: number;
     group_id: number;
@@ -15,9 +15,9 @@ interface UserAttributes {
     profile_url: string;
 }
 
-interface UserCreationAttributes extends Partial<UserAttributes>{}
+interface userCreationAttributes extends Partial<userAttributes>{}
 
-class UserModel extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+class userModel extends Model<userAttributes, userCreationAttributes> implements userAttributes {
     public user_id!: number;
     public company_id!: number;
     public group_id!: number;
@@ -31,7 +31,7 @@ class UserModel extends Model<UserAttributes, UserCreationAttributes> implements
     public profile_url!: string;
 }
 
-UserModel.init({
+userModel.init({
     user_id: {
         type: DataTypes.INTEGER,
         unique: true,
@@ -40,14 +40,14 @@ UserModel.init({
     company_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'company',
+            model: 'companyModel',
             key: 'company_id'
         }
     },
     group_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'user_group',
+            model: 'userGroupModel',
             key: 'group_id'
         }
     },
@@ -89,4 +89,4 @@ UserModel.init({
     timestamps: false,
 });
 
-export default UserModel;
+export default userModel;

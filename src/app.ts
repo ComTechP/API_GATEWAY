@@ -3,9 +3,7 @@ import express = require("express");
 import bodyParser = require("body-parser");
 import Router from "./Routes/index";
 import cors from "cors";
-import dotenv from 'dotenv';
 
-dotenv.config({ path: "../.env" });
 
 const app = express();
 

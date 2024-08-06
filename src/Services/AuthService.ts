@@ -2,14 +2,14 @@ import bcrypt from 'bcrypt';
 import {sign} from "jsonwebtoken";
 import { CreateUserInterface, logInUserInterface } from '../interfaces/UserInterface';
 import { HTTPException } from '../exceptions/HTTPexception';
-import UserModel from '../models/DBModels/UserModel';
+import userModel from '../models/DBModels/UserModel';
 import session_Token from '../models/DBModels/SessionTokenModel';
 import { DataStoredInToken, TokenData } from '../interfaces/AuthInterface';
 import { Service } from 'typedi';
 
-type UserInstance = UserModel;
+type userInstance = userModel;
 
-const GenerateToken = (user: UserInstance): TokenData => {
+const GenerateToken = (user: userInstance): TokenData => {
     const DataStoredInToken: DataStoredInToken = {user_id: user.user_id};
     //Access Token expires in 30 minutes
     const expiresIn: number = 60 * 30; 
@@ -31,9 +31,9 @@ const CreateCookie = (tokenData: TokenData): string => {
 @Service()
 export class AuthService {
 
-    public async signUp(userData: CreateUserInterface): Promise<UserInstance> {
-        const findEmail: UserInstance | null = await UserModel.findOne({where: {email: userData.email}});
-        const findUsername: UserInstance | null = await UserModel.findOne({where: {username: userData.username}});
+    public async signUp(userData: CreateUserInterface): Promise<userInstance> {
+        const findEmail: userInstance | null = await userModel.findOne({where: {email: userData.email}});
+        const findUsername: userInstance | null = await userModel.findOne({where: {username: userData.username}});
 
         if(findEmail)
             throw new HTTPException(409, 'This email already exists!');
@@ -43,14 +43,14 @@ export class AuthService {
 
         
         const hashedPassword = await bcrypt.hash(userData.password, 10);
-        const CreateUserData: UserInstance = await UserModel.create({...userData, password_hash: hashedPassword});
+        const CreateUserData: userInstance = await userModel.create({...userData, password_hash: hashedPassword});
 
         return CreateUserData;
     }
 
 
-    public async logIn(userData: logInUserInterface): Promise<{cookie: string; findUser: UserInstance}> {
-        const findUser: UserInstance | null = await UserModel.findOne({where: {username: userData.username}});
+    public async logIn(userData: logInUserInterface): Promise<{cookie: string; findUser: userInstance}> {
+        const findUser: userInstance | null = await userModel.findOne({where: {username: userData.username}});
         
         if(!findUser)
             throw new HTTPException(409, 'This Username Does Not Exist!');
@@ -74,8 +74,8 @@ export class AuthService {
 
     }
 
-    public async logOut(userData: UserInstance): Promise<UserInstance>{
-        const findUser: UserInstance | null = await UserModel.findOne({where: {username: userData.username}});
+    public async logOut(userData: userInstance): Promise<userInstance>{
+        const findUser: userInstance | null = await userModel.findOne({where: {username: userData.username}});
 
         if(!findUser)
             throw new HTTPException(409, 'This Username Does Not Exist!');

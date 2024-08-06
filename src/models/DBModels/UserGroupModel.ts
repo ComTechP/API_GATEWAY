@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
 
-interface User_Group_Attributes {
+interface userGroupAttributes {
     group_id: number;
     company_id: number;
     group_name: string;
@@ -10,9 +10,9 @@ interface User_Group_Attributes {
     created_at: Date;
 }
 
-interface User_Group_Creation_Attributes extends Partial<User_Group_Attributes>{}
+interface userGroupCreationAttributes extends Partial<userGroupAttributes>{}
 
-class User_Group extends Model<User_Group_Attributes, User_Group_Creation_Attributes> implements User_Group_Attributes {
+class userGroupModel extends Model<userGroupAttributes, userGroupCreationAttributes> implements userGroupAttributes {
     public group_id!: number;
     public company_id!: number;
     public group_name!: string;
@@ -21,7 +21,7 @@ class User_Group extends Model<User_Group_Attributes, User_Group_Creation_Attrib
     public created_at!: Date;
 }
 
-User_Group.init({
+userGroupModel.init({
     group_id: {
         type: DataTypes.INTEGER,
         unique: true,
@@ -30,7 +30,7 @@ User_Group.init({
     company_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'company',
+            model: 'companyModel',
             key: 'company_id'
         }
     },
@@ -52,8 +52,8 @@ User_Group.init({
     }
 },{
     sequelize,
-    tableName: 'User_Group',
+    tableName: 'user_group',
     timestamps: false
 });
 
-export default User_Group;
+export default userGroupModel;

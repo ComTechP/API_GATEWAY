@@ -1,23 +1,23 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
 
-interface Rate_Limit_Attributes{
+interface rateLimitAttributes{
     rate_limit_id: number;
     user_id: number;
     max_request: number;
     time_window: Date;
 }
 
-interface Rate_Limit_Creation_Attributes extends Partial<Rate_Limit_Attributes>{}
+interface rateLimitCreationAttributes extends Partial<rateLimitAttributes>{}
 
-class Rate_Limit extends Model<Rate_Limit_Attributes, Rate_Limit_Creation_Attributes> implements Rate_Limit_Attributes{
+class rateLimitModel extends Model<rateLimitAttributes, rateLimitCreationAttributes> implements rateLimitAttributes{
     public rate_limit_id!: number;
     public user_id!: number;
     public max_request!: number;
     public time_window!: Date;
 }
 
-Rate_Limit.init({
+rateLimitModel.init({
     rate_limit_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -26,7 +26,7 @@ Rate_Limit.init({
     user_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'User',
+            model: 'userModel',
             key: 'user_id',
           },
     },
@@ -40,8 +40,8 @@ Rate_Limit.init({
     },
 },{
     sequelize,
-    tableName: 'Rate_Limit',
+    tableName: 'rate_limit',
     timestamps: false,
 });
 
-export default Rate_Limit;
+export default rateLimitModel;

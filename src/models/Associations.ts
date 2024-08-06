@@ -1,49 +1,49 @@
-import Application from "./DBModels/ApplicationModel";
-import Company from "./DBModels/CompanyModel";
-import Company_Application_Token from "./DBModels/CompanyApplicationTokenModel";
-import Session_Token from "./DBModels/SessionTokenModel";
-import User from "./DBModels/UserModel";
-import Rate_Limit from "./DBModels/RateLimitModel";
-import Service from "./DBModels/ServiceModel";
-import Log from "./DBModels/LogModel";
-import API_Request from "./DBModels/APIRequestModel";
-import User_Group from "./DBModels/UserGroupModel";
+import applicationModel from "./DBModels/ApplicationModel";
+import companyModel from "./DBModels/CompanyModel";
+import companyApplicationTokenModel from "./DBModels/CompanyApplicationTokenModel";
+import sessionTokenModel from "./DBModels/SessionTokenModel";
+import userModel from "./DBModels/UserModel";
+import rateLimitModel from "./DBModels/RateLimitModel";
+import serviceModel from "./DBModels/ServiceModel";
+import logModel from "./DBModels/LogModel";
+import apiRequestModel from "./DBModels/APIRequestModel";
+import userGroupModel from "./DBModels/UserGroupModel";
 
 //Application Model Associations
-Application.hasMany(Company_Application_Token, { foreignKey: "application_id" });
-Company_Application_Token.belongsTo(Application, { foreignKey: "application_id" });
+applicationModel.hasMany(companyApplicationTokenModel, { foreignKey: "application_id" });
+companyApplicationTokenModel.belongsTo(applicationModel, { foreignKey: "application_id" });
 
 //Company Model Associations
-Company.hasMany(Company_Application_Token, { foreignKey: "company_id" });
-Company_Application_Token.belongsTo(Company, { foreignKey: "company_id" });
+companyModel.hasMany(companyApplicationTokenModel, { foreignKey: "company_id" });
+companyApplicationTokenModel.belongsTo(companyModel, { foreignKey: "company_id" });
 
-Company.hasMany(User, { foreignKey: "company_id" });
-User.belongsTo(Company, { foreignKey: "company_id" });
+companyModel.hasMany(userModel, { foreignKey: "company_id" });
+userModel.belongsTo(companyModel, { foreignKey: "company_id" });
 
-Company.hasMany(User_Group, { foreignKey: "company_id" });
-User_Group.belongsTo(Company, { foreignKey: "company_id" });
+companyModel.hasMany(userGroupModel, { foreignKey: "company_id" });
+userGroupModel.belongsTo(companyModel, { foreignKey: "company_id" });
 
 //User Model Associations
-User.hasMany(Rate_Limit, { foreignKey: "user_id" });
-Rate_Limit.belongsTo(User, { foreignKey: "user_id" });
+userModel.hasMany(rateLimitModel, { foreignKey: "user_id" });
+rateLimitModel.belongsTo(userModel, { foreignKey: "user_id" });
 
-User.hasMany(Session_Token, { foreignKey: "user_id" });
-Session_Token.belongsTo(User, { foreignKey: "user_id" });
+userModel.hasMany(sessionTokenModel, { foreignKey: "user_id" });
+sessionTokenModel.belongsTo(userModel, { foreignKey: "user_id" });
 
-User.hasMany(API_Request, { foreignKey: "user_id" });
-API_Request.belongsTo(User, { foreignKey: "user_id" });
+userModel.hasMany(apiRequestModel, { foreignKey: "user_id" });
+apiRequestModel.belongsTo(userModel, { foreignKey: "user_id" });
 
-User.hasMany(Company_Application_Token, { foreignKey: "created_by_user_id" });
-Company_Application_Token.belongsTo(User, { foreignKey: "created_by_user_id" });
+userModel.hasMany(companyApplicationTokenModel, { foreignKey: "created_by_user_id" });
+companyApplicationTokenModel.belongsTo(userModel, { foreignKey: "created_by_user_id" });
 
 //Service Model Associations
-Service.hasMany(API_Request, { foreignKey: "service_id" });
-API_Request.belongsTo(Service, { foreignKey: "service_id" });
+serviceModel.hasMany(apiRequestModel, { foreignKey: "service_id" });
+apiRequestModel.belongsTo(serviceModel, { foreignKey: "service_id" });
 
 //API_Request Model Associations
-API_Request.hasMany(Log, { foreignKey: "request_id" });
-Log.belongsTo(API_Request, { foreignKey: "request_id" });
+apiRequestModel.hasMany(logModel, { foreignKey: "request_id" });
+logModel.belongsTo(apiRequestModel, { foreignKey: "request_id" });
 
 //User_Group Associations
-User_Group.hasMany(User, { foreignKey: "group_id" });
-User.belongsTo(User_Group, { foreignKey: "group_id" });
+userGroupModel.hasMany(userModel, { foreignKey: "group_id" });
+userModel.belongsTo(userGroupModel, { foreignKey: "group_id" });
