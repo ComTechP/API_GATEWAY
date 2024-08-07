@@ -21,8 +21,8 @@ export class UserService {
         return findUser;
     }
 
-    public async findUserByUsername(username: string): Promise<userInstance> {
-        const findUser: userInstance | null = await userModel.findOne({where: {username}});
+    public async findUserByUsername(userName: string): Promise<userInstance> {
+        const findUser: userInstance | null = await userModel.findOne({where: {username: userName}});
         if(!findUser)
             throw new HTTPException(409 ,"User Does Not Exist!");
 
@@ -54,8 +54,8 @@ export class UserService {
         return updateUser;
    }
 
-   public async updateUserByUsername(username: string, userData: CreateUserInterface): Promise<userInstance>{
-        const findUser: userInstance | null = await userModel.findOne({where: {username}});
+   public async updateUserByUsername(userName: string, userData: CreateUserInterface): Promise<userInstance>{
+        const findUser: userInstance | null = await userModel.findOne({where: {username: userName}});
 
         if(!findUser)
             throw new HTTPException(409, "User Does Not Exist!");

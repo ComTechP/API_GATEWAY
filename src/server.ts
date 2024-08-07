@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import app from './app';
-import sequelize from './models/connection';
+import sequelize from './models/init';
 
 const port = process.env.PORT || 3000;
 

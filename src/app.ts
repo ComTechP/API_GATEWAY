@@ -3,6 +3,7 @@ import express = require("express");
 import bodyParser = require("body-parser");
 import Router from "./Routes/index";
 import cors from "cors";
+import sequelize from './models/init';
 
 
 const app = express();
