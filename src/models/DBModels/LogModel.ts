@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import sequelize from "../connection";
+import { DataTypes, Model, Sequelize } from "sequelize";
+
 
 interface logAttributes{
     log_id: number;
@@ -11,7 +11,7 @@ interface logAttributes{
 
 interface logCreationAttributes extends Partial<logAttributes>{}
 
-class logModel extends Model<logAttributes, logCreationAttributes> implements logAttributes{
+export class logModel extends Model<logAttributes, logCreationAttributes> implements logAttributes{
     public log_id!: number;
     public request_id!: number;
     public log_message!: string;
@@ -19,7 +19,8 @@ class logModel extends Model<logAttributes, logCreationAttributes> implements lo
     public time!: Date;
 }
 
-logModel.init({
+export const initLogModel = (sequelize: Sequelize) => {
+    logModel.init({
     log_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -28,7 +29,7 @@ logModel.init({
     request_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'apiResquestModel',
+            model: 'api_request',
             key: 'request_id',
         }
     },
@@ -42,10 +43,15 @@ logModel.init({
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
-},{
-    sequelize,
-    tableName:'log',
-    timestamps: false,
-});
+    },{
+        sequelize,
+        tableName:'log',
+        timestamps: false,
+    }
+  );
+};
 
-export default logModel;
+export type logInstance = typeof logModel & {
+    new (): logModel;
+};
+

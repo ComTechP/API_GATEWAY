@@ -1,6 +1,6 @@
 import { hash } from 'bcrypt';
 import { Service } from 'typedi';
-import  userModel  from '../models/DBModels/UserModel';
+import { userModel } from '../models/DBModels/UserModel';
 import { HTTPException } from '../exceptions/HTTPexception';
 import { CreateUserInterface } from '../interfaces/UserInterface';
 

@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
-import {sign} from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import { CreateUserInterface, logInUserInterface } from '../interfaces/UserInterface';
 import { HTTPException } from '../exceptions/HTTPexception';
-import userModel from '../models/DBModels/UserModel';
-import session_Token from '../models/DBModels/SessionTokenModel';
+import { userModel } from '../models/DBModels/UserModel';
+import { sessionTokenModel } from '../models/DBModels/SessionTokenModel';
 import { DataStoredInToken, TokenData } from '../interfaces/AuthInterface';
 import { Service } from 'typedi';
 
@@ -65,7 +65,7 @@ export class AuthService {
         const cookie = CreateCookie(tokenData);
 
         
-        await session_Token.update(
+        await sessionTokenModel.update(
             {access_token: tokenData.access_token, refresh_token: tokenData.refresh_token},
             {where: {user_id: findUser.user_id}}
         );
@@ -80,7 +80,7 @@ export class AuthService {
         if(!findUser)
             throw new HTTPException(409, 'This Username Does Not Exist!');
 
-        await session_Token.destroy({where: {user_id: findUser.user_id}});
+        await sessionTokenModel.destroy({where: {user_id: findUser.user_id}});
 
         return findUser;
     }

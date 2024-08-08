@@ -1,5 +1,5 @@
-import {DataTypes, Model} from 'sequelize';
-import sequelize from '../connection';
+import {DataTypes, Model, Sequelize} from 'sequelize';
+
 
 interface companyAttributes{
     company_id: number;
@@ -12,7 +12,7 @@ interface companyAttributes{
 
 interface companyCreationAttributes extends Partial<companyAttributes>{}
 
-class companyModel extends Model<companyAttributes, companyCreationAttributes> implements companyAttributes{
+export class companyModel extends Model<companyAttributes, companyCreationAttributes> implements companyAttributes{
     public company_id!: number;
     public company_name!: string;
     public website!: string;
@@ -21,7 +21,8 @@ class companyModel extends Model<companyAttributes, companyCreationAttributes> i
     public scont_url!: string;
 }
 
-companyModel.init({
+export const initCompanyModel = (sequelize: Sequelize) => {
+    companyModel.init({
     company_id:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -48,10 +49,14 @@ companyModel.init({
         allowNull: false,
         unique: true,
     }
-},{ 
-    sequelize,
-    tableName: 'company',
-    timestamps: false,
-});
+    },{ 
+        sequelize,
+        tableName: 'company',
+        timestamps: false,
+    }
+  );
+};
 
-export default companyModel;
+export type companyInstance = typeof companyModel & {
+    new (): companyModel;
+};

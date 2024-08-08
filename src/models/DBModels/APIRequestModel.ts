@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import sequelize from "../connection";
+import { DataTypes, Model, Sequelize } from "sequelize";
+
 
 interface apiRequestAttributes {
   request_id: number;
@@ -13,7 +13,7 @@ interface apiRequestAttributes {
 
 interface apiRequestCreationAttributes extends Partial<apiRequestAttributes> {}
 
-class apiRequestModel extends Model<apiRequestAttributes, apiRequestCreationAttributes> implements apiRequestAttributes {
+export class apiRequestModel extends Model<apiRequestAttributes, apiRequestCreationAttributes> implements apiRequestAttributes {
   public request_id!: number;
   public user_id!: number;
   public service_id!: number;
@@ -23,7 +23,8 @@ class apiRequestModel extends Model<apiRequestAttributes, apiRequestCreationAttr
   public status_code!: number;
 }
 
-apiRequestModel.init(
+export const initApiRequestModel = (sequelize: Sequelize) => {
+  apiRequestModel.init(
   {
     request_id: {
       type: DataTypes.INTEGER,
@@ -33,14 +34,14 @@ apiRequestModel.init(
     user_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: "userModel",
+        model: "user",
         key: "user_id",
       },
     },
     service_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: "serviceModel",
+        model: "service",
         key: "service_id",
       },
     },
@@ -67,6 +68,11 @@ apiRequestModel.init(
     tableName: "api_request",
     timestamps: false,
   }
-);
+ );
+};
 
-export default apiRequestModel;
+export type apiRequestInstance = typeof apiRequestModel & {
+  new (): apiRequestModel;
+};
+
+

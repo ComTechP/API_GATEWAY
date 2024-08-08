@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
-import userModel from '../models/DBModels/UserModel';
+import { userModel } from '../models/DBModels/UserModel';
 import { CreateUserInterface, logInUserInterface } from '../interfaces/UserInterface';
 import { RequestWithUser } from '../interfaces/AuthInterface';
 import { AuthService } from '../Services/AuthService';

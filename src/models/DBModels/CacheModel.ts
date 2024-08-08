@@ -1,5 +1,5 @@
-import {DataTypes, Model} from 'sequelize';
-import sequelize from '../connection';
+import {DataTypes, Model, Sequelize} from 'sequelize';
+
 
 interface cacheAttributes{
     cache_id: number;
@@ -11,7 +11,7 @@ interface cacheAttributes{
 
 interface cacheCreationAttributes extends Partial<cacheAttributes>{}
 
-class cacheModel extends Model<cacheAttributes, cacheCreationAttributes> implements cacheAttributes{
+export class cacheModel extends Model<cacheAttributes, cacheCreationAttributes> implements cacheAttributes{
     public cache_id!: number;
     public cache_key!: number;
     public value!: string;
@@ -19,7 +19,8 @@ class cacheModel extends Model<cacheAttributes, cacheCreationAttributes> impleme
     public expires_at!: Date;
 }
 
-cacheModel.init({
+export const initCacheModel = (sequelize: Sequelize) => {
+    cacheModel.init({
     cache_id:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -41,10 +42,15 @@ cacheModel.init({
     expires_at:{
         type: DataTypes.DATE,
     }
-} , {
-        sequelize,
-        tableName: 'cache',
-        timestamps: false,
-});
+    } , {
+            sequelize,
+            tableName: 'cache',
+            timestamps: false,
+    }
+  );
+};
 
-export default cacheModel;
+export type cacheInstance = typeof cacheModel & {
+    new (): cacheModel;
+};
+

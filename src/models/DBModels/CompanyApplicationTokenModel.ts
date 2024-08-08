@@ -1,5 +1,4 @@
-import { DataTypes, Model } from "sequelize";
-import sequelize from "../connection";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
 interface companyApplicationTokenAttributes {
     id: number;
@@ -14,7 +13,7 @@ interface companyApplicationTokenAttributes {
 
 interface companyApplicationTokenCreationAttributes extends Partial<companyApplicationTokenAttributes>{}
 
-class companyApplicationTokenModel extends Model<companyApplicationTokenAttributes, companyApplicationTokenCreationAttributes> implements companyApplicationTokenAttributes {
+export class companyApplicationTokenModel extends Model<companyApplicationTokenAttributes, companyApplicationTokenCreationAttributes> implements companyApplicationTokenAttributes {
     public id!: number;
     public application_id!: number;
     public company_id!: number;
@@ -25,7 +24,8 @@ class companyApplicationTokenModel extends Model<companyApplicationTokenAttribut
     public is_active!: boolean;
 }
 
-companyApplicationTokenModel.init({
+export const initCompanyApplicationTokenModel = (sequelize: Sequelize) => {
+    companyApplicationTokenModel.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -34,14 +34,14 @@ companyApplicationTokenModel.init({
     application_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'applicationModel',
+            model: 'application',
             key: 'application_id',
         }
     },
     company_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'companyModel',
+            model: 'company',
             key: 'company_id',
         }
     },
@@ -58,7 +58,7 @@ companyApplicationTokenModel.init({
     created_by_user: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'userModel',
+            model: 'user',
             key: 'user_id',
         }
     },
@@ -71,10 +71,14 @@ companyApplicationTokenModel.init({
         type: DataTypes.BOOLEAN,
         allowNull: false,
     },
-},{
-    sequelize,
-    tableName: 'company_application_token',
-    timestamps: false,
-});
+    },{
+        sequelize,
+        tableName: 'company_application_token',
+        timestamps: false,
+    }
+  );
+};
 
-export default companyApplicationTokenModel;
+export type companyApplicationTokenInstance = typeof companyApplicationTokenModel & {
+    new (): companyApplicationTokenModel;
+};

@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import sequelize from "../connection";
+import { DataTypes, Model, Sequelize } from "sequelize";
+
 
 interface serviceAttributes{
     service_id: number;
@@ -9,13 +9,14 @@ interface serviceAttributes{
 
 interface serviceCreationAttributes extends Partial<serviceAttributes>{}
 
-class serviceModel extends Model<serviceAttributes, serviceCreationAttributes> implements serviceAttributes{
+export class serviceModel extends Model<serviceAttributes, serviceCreationAttributes> implements serviceAttributes{
     public service_id!: number;
     public service_name!: string;
     public service_url!: string;
 }
 
-serviceModel.init({
+export const initServiceModel = (sequelize: Sequelize) => {
+    serviceModel.init({
     service_id: {
         type: DataTypes.INTEGER,
         primaryKey:true,
@@ -29,10 +30,14 @@ serviceModel.init({
         type: DataTypes.STRING(255),
         allowNull: false,
     },
-},{
-    sequelize,
-    tableName: 'service',
-    timestamps: false,
-});
+    },{
+        sequelize,
+        tableName: 'service',
+        timestamps: false,
+    }
+  );
+};
 
-export default serviceModel;
+export type serviceInstance = typeof serviceModel & {
+    new (): serviceModel;
+};

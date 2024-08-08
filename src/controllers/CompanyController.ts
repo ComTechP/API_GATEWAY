@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
-import companyModel from '../models/DBModels/CompanyModel';
+import { companyModel } from '../models/DBModels/CompanyModel';
 import { CreateCompanyInterface } from '../interfaces/CompanyInterface';
 import { CompanyService } from '../Services/CompanyService';
 

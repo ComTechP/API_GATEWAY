@@ -1,5 +1,5 @@
-import {DataTypes, Model} from 'sequelize';
-import sequelize from '../connection';
+import {DataTypes, Model, Sequelize} from 'sequelize';
+
 
 interface applicationAttributes{
     application_id: number;
@@ -10,14 +10,15 @@ interface applicationAttributes{
 
 interface applicationCreationAttributes extends Partial<applicationAttributes>{}
 
-class applicationModel extends Model<applicationAttributes, applicationCreationAttributes> implements applicationAttributes{
+export class applicationModel extends Model<applicationAttributes, applicationCreationAttributes> implements applicationAttributes{
     public application_id!: number;
     public name!: string;
     public url!: string;
     public created_at!: Date;
 }
 
-applicationModel.init({
+export const initApplicationModel = (sequelize: Sequelize) => {
+  applicationModel.init({
     application_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -38,10 +39,14 @@ applicationModel.init({
         defaultValue: DataTypes.NOW,
       },
     }, {
-      sequelize,
-      tableName: 'application',
-      timestamps: false,
+          sequelize,
+          tableName: 'application',
+          timestamps: false,
 
-});
+    }
+  );
+};
 
-export default applicationModel;
+export type applicationInstance = typeof applicationModel & {
+  new (): applicationModel;
+};

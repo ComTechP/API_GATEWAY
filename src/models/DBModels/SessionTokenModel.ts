@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import sequelize from "../connection";
+import { DataTypes, Model, Sequelize } from "sequelize";
+
 
 interface sessionTokenAttributes {
     token_id: number;
@@ -12,7 +12,7 @@ interface sessionTokenAttributes {
 
 interface sessionTokenCreationAttributes extends Partial<sessionTokenAttributes>{}
 
-class sessionTokenModel extends Model<sessionTokenAttributes, sessionTokenCreationAttributes> implements sessionTokenAttributes {
+export class sessionTokenModel extends Model<sessionTokenAttributes, sessionTokenCreationAttributes> implements sessionTokenAttributes {
     public token_id!: number;
     public user_id!: number;
     public access_token!: string;
@@ -21,7 +21,8 @@ class sessionTokenModel extends Model<sessionTokenAttributes, sessionTokenCreati
     public expires_at!: Date;
 }
 
-sessionTokenModel.init({
+export const initSessionTokenModel = (sequelize: Sequelize) => {
+    sessionTokenModel.init({
     token_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -30,7 +31,7 @@ sessionTokenModel.init({
     user_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'userModel',
+            model: 'user',
             key: 'user_id',
         }
     },
@@ -53,10 +54,15 @@ sessionTokenModel.init({
         type: DataTypes.DATE,
         allowNull: false,
     },
-},{
-    sequelize,
-    tableName: 'session_token',
-    timestamps: false,
-});
+    },{
+        sequelize,
+        tableName: 'session_token',
+        timestamps: false,
+    }
+  );
+};
 
-export default sessionTokenModel;
+export type sessionTokenInstance = typeof sessionTokenModel & {
+    new (): sessionTokenModel;
+};
+

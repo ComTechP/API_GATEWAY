@@ -1,5 +1,4 @@
-import { DataTypes, Model } from "sequelize";
-import sequelize from "../connection";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
 interface userGroupAttributes {
     group_id: number;
@@ -12,7 +11,7 @@ interface userGroupAttributes {
 
 interface userGroupCreationAttributes extends Partial<userGroupAttributes>{}
 
-class userGroupModel extends Model<userGroupAttributes, userGroupCreationAttributes> implements userGroupAttributes {
+export class userGroupModel extends Model<userGroupAttributes, userGroupCreationAttributes> implements userGroupAttributes {
     public group_id!: number;
     public company_id!: number;
     public group_name!: string;
@@ -21,7 +20,8 @@ class userGroupModel extends Model<userGroupAttributes, userGroupCreationAttribu
     public created_at!: Date;
 }
 
-userGroupModel.init({
+export const initUserGroupModel = (sequelize: Sequelize) => {
+    userGroupModel.init({
     group_id: {
         type: DataTypes.INTEGER,
         unique: true,
@@ -30,7 +30,7 @@ userGroupModel.init({
     company_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'companyModel',
+            model: 'company',
             key: 'company_id'
         }
     },
@@ -50,10 +50,15 @@ userGroupModel.init({
         allowNull: false,
         defaultValue: DataTypes.NOW
     }
-},{
-    sequelize,
-    tableName: 'user_group',
-    timestamps: false
-});
+    },{
+        sequelize,
+        tableName: 'user_group',
+        timestamps: false
+    }
+  );
+};
 
-export default userGroupModel;
+export type userGroupInstance = typeof userGroupModel & {
+    new (): userGroupModel;
+};
+

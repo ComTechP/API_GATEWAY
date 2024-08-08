@@ -1,4 +1,4 @@
-import companyModel from "../models/DBModels/CompanyModel";
+import { companyModel } from "../models/DBModels/CompanyModel";
 import { HTTPException } from "../exceptions/HTTPexception";
 import { CreateCompanyInterface, UpdateCompanyInterface } from "../interfaces/CompanyInterface";
 import { Service } from "typedi";

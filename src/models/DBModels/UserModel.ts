@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import sequelize from "../connection";
+import { DataTypes, Model, Sequelize } from "sequelize";
+
 
 interface userAttributes {
     user_id: number;
@@ -17,7 +17,7 @@ interface userAttributes {
 
 interface userCreationAttributes extends Partial<userAttributes>{}
 
-class userModel extends Model<userAttributes, userCreationAttributes> implements userAttributes {
+export class userModel extends Model<userAttributes, userCreationAttributes> implements userAttributes {
     public user_id!: number;
     public company_id!: number;
     public group_id!: number;
@@ -31,7 +31,8 @@ class userModel extends Model<userAttributes, userCreationAttributes> implements
     public profile_url!: string;
 }
 
-userModel.init({
+export const initUserModel = (sequelize: Sequelize) => {
+    userModel.init({
     user_id: {
         type: DataTypes.INTEGER,
         unique: true,
@@ -40,14 +41,14 @@ userModel.init({
     company_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'companyModel',
+            model: 'company',
             key: 'company_id'
         }
     },
     group_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'userGroupModel',
+            model: 'user_group',
             key: 'group_id'
         }
     },
@@ -83,10 +84,14 @@ userModel.init({
     profile_url: {
         type: DataTypes.STRING(255)
     }
-},{
-    sequelize,
-    tableName: 'user',
-    timestamps: false,
-});
+    },{
+        sequelize,
+        tableName: 'user',
+        timestamps: false,
+    }
+  );
+};
 
-export default userModel;
+export type userInstance = typeof userModel & {
+    new (): userModel;
+};
