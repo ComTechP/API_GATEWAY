@@ -12,14 +12,14 @@ class UserRoute implements Routes {
     }
 
     private initializeRoutes(){
-        this.router.get(`${this.path}/getAllUsers`, this.userController.getAllUsers);
-        this.router.get(`${this.path}/getUserById/:id(\\d+)`, this.userController.getUserById);
-        this.router.get(`${this.path}/getUserByUsername/:username(\\w+)`, this.userController.getUserByUsername);
-        this.router.post(`${this.path}/createUser`, this.userController.createUser);
-        this.router.put(`${this.path}/updateUserById/:id(\\d+)`, this.userController.updateUserById);
-        this.router.put(`${this.path}/updateUserByUsername/:username(\\w+)`, this.userController.updateUserByUsername);
-        this.router.delete(`${this.path}/deleteUserById/:id(\\d+)`, this.userController.deleteUserById);
-        this.router.delete(`${this.path}/deleteUserByUsername/:username(\\w+)`, this.userController.deleteUserByUsername);
+        this.router.get(`${this.path}/getAll`, this.userController.getAllUsers);
+        this.router.get(`${this.path}/getById/:id(\\d+)`, this.userController.getUserById);
+        this.router.get(`${this.path}/getByUsername/:username(\\w+)`, this.userController.getUserByUsername);
+        this.router.post(`${this.path}/create`, this.userController.createUser);
+        this.router.put(`${this.path}/updateById/:id(\\d+)`, this.userController.updateUserById);
+        this.router.put(`${this.path}/updateByUsername/:username(\\w+)`, this.userController.updateUserByUsername);
+        this.router.delete(`${this.path}/deleteById/:id(\\d+)`, this.userController.deleteUserById);
+        this.router.delete(`${this.path}/deleteByUsername/:username(\\w+)`, this.userController.deleteUserByUsername);
     }
 }
 

@@ -4,32 +4,42 @@ import { CreateUserInterface, logInUserInterface } from '../interfaces/UserInter
 import { HTTPException } from '../exceptions/HTTPexception';
 import { userModel } from '../models/DBModels/UserModel';
 import { sessionTokenModel } from '../models/DBModels/SessionTokenModel';
-import { DataStoredInToken, TokenData } from '../interfaces/AuthInterface';
-import { Service } from 'typedi';
+import { DataStoredInToken } from '../interfaces/AuthInterface';
+import { generateSessionTokenInterface, createSessionTokenInterface } from '../interfaces/sessionTokenInterface';
+import { Service, Container } from 'typedi';
+import { sessionTokenService } from './SessionTokenService';
 
 type userInstance = userModel;
 
-const GenerateToken = (user: userInstance): TokenData => {
+
+const GenerateToken = (user: userInstance): generateSessionTokenInterface => {
     const DataStoredInToken: DataStoredInToken = {user_id: user.user_id};
     //Access Token expires in 30 minutes
     const expiresIn: number = 60 * 30; 
-
+    const issued_at: Date = new Date(Date.now());
+    const expires_at: Date = new Date(Date.now() + expiresIn);
     const access_token = sign(DataStoredInToken, 'Access_Token', {expiresIn});
     const refresh_token = sign(DataStoredInToken, 'Refresh_Token', {expiresIn: 2 * 60 * 60});
+    const user_id: number = user.user_id;
 
     return {
         access_token,
         refresh_token,
+        issued_at,
+        expires_at,
         expiresIn,
+        user_id
     };
 }
 
-const CreateCookie = (tokenData: TokenData): string => {
+const CreateCookie = (tokenData: createSessionTokenInterface): string => {
     return `User Authorized. Access_Token: ${tokenData.access_token}, Refresh_Token: ${tokenData.refresh_token}; HTTP-Only; LifeTime: ${tokenData.expiresIn}`;
 }
 
 @Service()
 export class AuthService {
+
+    public sessionTokenService = Container.get(sessionTokenService);
 
     public async signUp(userData: CreateUserInterface): Promise<userInstance> {
         const findEmail: userInstance | null = await userModel.findOne({where: {email: userData.email}});
@@ -64,11 +74,16 @@ export class AuthService {
         const tokenData = GenerateToken(findUser);
         const cookie = CreateCookie(tokenData);
 
-        
-        await sessionTokenModel.update(
-            {access_token: tokenData.access_token, refresh_token: tokenData.refresh_token},
-            {where: {user_id: findUser.user_id}}
-        );
+        try{
+            const postToken = await this.sessionTokenService.createSessionToken(tokenData);
+        }catch(error){
+            console.error("Error communicating with the token service.", error);
+        }
+
+        console.log(`Updating session token for user_id: ${findUser.user_id}`);
+        console.log(`Access Token: ${tokenData.access_token}`);
+        console.log(`Refresh Token: ${tokenData.refresh_token}`);
+
 
         return { cookie, findUser};
 

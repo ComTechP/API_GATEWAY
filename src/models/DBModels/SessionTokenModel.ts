@@ -36,12 +36,12 @@ export const initSessionTokenModel = (sequelize: Sequelize) => {
         }
     },
     access_token: {
-        type: DataTypes.STRING(64),
+        type: DataTypes.STRING(512),
         allowNull: false,
         unique: true,
         },
     refresh_token: {
-        type: DataTypes.STRING(64),
+        type: DataTypes.STRING(512),
         allowNull: false,
         unique: true,
     },
